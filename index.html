@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="/jquery"></script>
+        <style>
+            body{
+                font-family: Arial, Helvetica, sans-serif;
+                margin: 0px;
+            }
+            textarea:focus, input:focus{
+                outline: none;
+            }
+            .imgc{
+                border-radius: 50%;
+                width: 100px;
+                height: 100px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .container{
+                text-align: center;
+            }
+            .title{
+                text-align: center;
+                font-size: 40px;
+            }
+            .header{
+                text-align: center;
+                font-size: 30px;
+                margin-top: 10px;
+                margin-bottom: 10px;
+            }
+            .inptext{
+                text-align: center;
+            }
+            .inp{
+                padding: 5px;
+                font-size: 15px;
+                text-align: center;
+                border: 1px solid #666;
+                border-radius: 3px;
+                background-color: #EEE;
+            }
+            .inpmsg{
+                resize: none;
+                text-align: left;
+                width: 80%;
+                max-width: 500px;
+                height: 100px;
+            }
+            .button{
+                padding: 5px;
+                font-size: 15px;
+                text-align: center;
+                border: 1px solid #666;
+                border-radius: 3px;
+                background-color: #EEE;
+            }
+            .button:hover{
+                background-color: #DDD;
+                cursor: pointer;
+            }
+            .dropdown{
+                padding: 5px;
+                font-size: 15px;
+                border: 1px solid #666;
+                border-radius: 3px;
+                background-color: #EEE;
+                margin-bottom: 10px;
+            }
+            .green{
+                border-color: #43B581;
+            }
+            .yellow{
+                border-color: #FAA61A;
+            }
+            .red{
+                border-color: #F04747;
+            }
+            #smol{
+                font-style: italic;
+                font-size: 12px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+             <br/>
+            <img class="imgc" src="/image.png">
+            <div class="title" id="title">Bot</div>
+            <br/>
+            <br/>
+            <p class="header">Controls</p>
+            <span action="/online" id="online" class=" stbtn button green">Online</span>
+            <span action="/idle" id="idle" class="stbtn button yellow">Idle</span>
+            <span action="/dnd" id="dnd" class="stbtn button red">Do Not Disturb</span>
+            <span action="/invisible" id="invisible" class="stbtn button">Invisible</span>
+            <br/>
+            <br/>
+            <!--span action="/startt" id="startt" class="stbtn button">Start Typing</span>
+            <span action="/stopt" id="stopt" class="stbtn button">Stop Typing</span-->
+            <p class="header">Send Message</p>
+            <form action="/msg" method="post">
+                <select id="guild" class="dropdown" type="text" name="gid">
+                </select>
+                <br/>
+                <select id="channel" class="dropdown" type="text" name="cid">
+                </select>
+                <br/>
+                <textarea id="msg" class="inp inpmsg" type="text" name="msg"></textarea>
+                <br/>
+                <input class="button" type="submit" value="Send Message">
+                <!--p id="smol">this assumes you can write in the specified channel</p-->
+            </form>
+            <br/>
+            <div class="header">Copy and Pastes</div>
+            <select class="dropdown" id="server">
+            </select>
+            <select class="dropdown" id="kind">
+                <option value="emoji">emoji</option>
+                <option value="user">user</option>
+                <option value="role">role</option>
+                <option value="channel">channel</option>
+            </select>
+            <select class="dropdown" id="thing">
+            </select>
+            <p id="place"></p>
+            <div id="emojiimage"></div>
+        </div>
+        
+        
+        <script>
+        $(document).ready(function(){
+           var $form = $('form');
+           $form.submit(function(){
+              $.post($(this).attr('action'), $(this).serialize(), function(response){
+                    // do something here on success
+              },'json');
+              return false;
+           });
+        });
+        
+        $('#msg').keydown(function (event) {
+            if (event.keyCode == 13) {         
+                if(!event.shiftKey){
+                    $('form').submit();
+                    setTimeout(function(){
+                        $('#msg').val('');
+                    }, 1)
+                }
+            }
+        });
+        var data = null;
+        $.getJSON( '/data', function(daat){
+             data = daat;
+             for(var i = 0; i < data.length; i++){
+                 $('#server').append(
+                    $('<option>').attr('value', data[i].gid).text(data[i].server)
+                 );
+                 $('#guild').append(
+                    $('<option>').attr('value', data[i].gid).text(data[i].server)
+                 );
+             }
+             sgchange();
+             inpchange();
+        });
+        $.getJSON( '/name', function(name){
+            $('#title').text(name);
+        });
+        $('#server').change(function(){
+            inpchange();
+        });
+        $('#guild').change(function(){
+            sgchange();
+        });
+        $('#kind').change(function(){
+            inpchange();
+        });
+        $('#thing').change(function(){
+            selchange();
+        });
+        $('.stbtn').click(function(){
+            $.post($(this).attr('action'), function(response){
+                    console.log('a');
+              });
+        });
+        function sgchange(){
+            var selguild = $('#guild').find(":selected").attr('value');
+            for(var i = 0; i < data.length; i++){
+                if(data[i].gid == selguild){
+                    var car = data[i].channels;
+                    $('#channel').empty();
+                    for(var j = 0; j < car.length; j++){
+                        if(car[j].perm){
+                            $('#channel').append(
+                                $('<option>').attr('value', car[j].id).text('#' + car[j].name)
+                            );
+                        }
+                    }
+                }
+            }
+        }
+        function inpchange(){
+            var selserver = $('#server').find(":selected").attr('value');
+            var selkind = $('#kind').find(":selected").attr('value');
+            console.log(selkind);
+            for(var i = 0; i < data.length; i++){
+                if(data[i].gid == selserver){
+                    if(selkind == 'emoji'){
+                        var ear = data[i].emojis;
+                        $('#thing').empty();
+                        for(var j = 0; j < ear.length; j++){
+                            $('#thing').append(
+                                $('<option>').attr('value', ear[j].string).text(ear[j].name).attr('image', ear[j].url)
+                            );
+                        }
+                    }else if(selkind == 'user'){ 
+                        var uar = data[i].users;
+                        $('#thing').empty();
+                        for(var j = 0; j < uar.length; j++){
+                            $('#thing').append(
+                                $('<option>').attr('value', uar[j].string).text('@' + uar[j].nick + ' (' + uar[j].name + ')')
+                            );
+                        }
+                    }else if(selkind == 'role'){ 
+                        var rar = data[i].roles;
+                        $('#thing').empty();
+                        for(var j = 0; j < rar.length; j++){
+                            if(rar[j].string != '@everyone'){
+                                $('#thing').append(
+                                    $('<option>').attr('value', rar[j].string).text('@' + rar[j].name)
+                                );
+                            }
+                        }
+                    }else{ //channel
+                        var car = data[i].channels;
+                        $('#thing').empty();
+                        for(var j = 0; j < car.length; j++){
+                            $('#thing').append(
+                                $('<option>').attr('value', car[j].string).text('#' + car[j].name)
+                            );
+                        }
+                    }
+                }
+            }
+            selchange();
+            
+                        
+        }
+        function selchange(){
+            var sel = $('#thing').find(":selected");
+            var str = sel.attr('value');
+            $('#emojiimage').empty();
+            if(sel.attr('image') != undefined){
+                $('#emojiimage').append(
+                    $('<img>').attr('src', sel.attr('image')).css('height', '30px')
+                );
+            }
+            
+            $('#place').html(str);
+        }
+        </script>
+    </body>
+</html>
