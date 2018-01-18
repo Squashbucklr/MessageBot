@@ -8,7 +8,7 @@ install node
 make a file called "config.txt" and put your bot key in the first line, username in second, and password in third.
 
 npm install these packages
-- discord-js
+- discord.js
 - body-parser
 - express
 - fs
