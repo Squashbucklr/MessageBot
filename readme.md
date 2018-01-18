@@ -5,7 +5,7 @@ how to use it:
 
 install node
 
-make a file called "key.txt" and put your bot key in there.
+make a file called "config.txt" and put your bot key in the first line and password in the second.
 
 npm install these packages
 - discord-js

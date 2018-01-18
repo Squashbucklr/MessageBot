@@ -78,6 +78,10 @@ bot.on('ready', () => {
                 });
             }
             
+            put.emojis.sort(function(a, b){
+                return ( a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1);
+            });
+            
             var uar = g.members.array();
             for(var j = 0; j < uar.length; j++){
                 var u = uar[j];
@@ -87,6 +91,11 @@ bot.on('ready', () => {
                     "string": u.toString()
                 });
             }
+            var b = false;
+            put.users.sort(function(a, b){
+                if(b) return ( a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1);
+                else  return ( a.nick.toLowerCase() < b.nick.toLowerCase() ? -1 : 1);
+            });
             
             var rar = g.roles.array();
             for(var j = 0; j < rar.length; j++){
@@ -96,6 +105,9 @@ bot.on('ready', () => {
                     "string": r.toString()
                 });
             }
+            put.roles.sort(function(a, b){
+                return ( a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1);
+            });
             
             var car = g.channels.array();
             for(var j = 0; j < car.length; j++){
@@ -109,6 +121,9 @@ bot.on('ready', () => {
                     });
                 }
             }
+            put.channels.sort(function(a, b){
+                return ( a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1);
+            });
             
             ret.push(put);
         }
@@ -147,5 +162,6 @@ function chAct(){
 }
 
 fs.readFile("key.txt", "utf8", function (err, data) {
+    var lines = data.split('\n');
     bot.login(data);
 });
