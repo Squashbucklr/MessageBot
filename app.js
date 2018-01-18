@@ -1,13 +1,21 @@
 var Discord = require("discord.js");
 var bodyParser = require('body-parser');
+var basicAuth = require('express-basic-auth');
 var express = require('express');
 var app = express();
 var fs = require('fs');
 var bot = new Discord.Client();
 
+var lines = [];
+
 bot.on('ready', () => {
     chAct();
-    
+    var uobj = {};
+    uobj[lines[1]] = lines[2];
+    app.use(basicAuth({
+        users: uobj,
+        challenge: true
+    }));
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({
       extended: true
@@ -161,7 +169,7 @@ function chAct(){
     setTimeout(chAct, 600000);
 }
 
-fs.readFile("key.txt", "utf8", function (err, data) {
-    var lines = data.split('\n');
-    bot.login(data);
+fs.readFile("config.txt", "utf8", function (err, data) {
+    lines = data.split('\r').join('').split('\n');
+    bot.login(lines[0]);
 });
