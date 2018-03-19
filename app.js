@@ -1,6 +1,7 @@
 var Discord = require("discord.js");
 var bodyParser = require('body-parser');
 var basicAuth = require('express-basic-auth');
+var https = require('https');
 var express = require('express');
 var app = express();
 var fs = require('fs');
@@ -21,6 +22,7 @@ bot.on('ready', () => {
       extended: true
     })); 
     app.get('/', function(req, res){
+        console.log(req.ip);
         fs.readFile("index.html", "utf8", function (err, data) {
             res.send(data);
         });
@@ -138,6 +140,10 @@ bot.on('ready', () => {
         res.send(JSON.stringify(ret));
     });
     app.listen(12345);
+//    var options = {};
+//    https.createServer(options, function(req, res){
+//        app.handle(req, res);
+//    }).listen(12345);
 });
 
 function chAct(){
@@ -152,9 +158,14 @@ function chAct(){
         {"a":"WATCHING","b":"important videos"},
         {"a":"WATCHING","b":"memes"},
         {"a":"WATCHING","b":"the day go by"},
+        {"a":"WATCHING","b":"anything but anime"},
+        {"a":"PLAYING","b":"communism fail"},
         {"a":"PLAYING","b":"PONG (1972)"},
+        {"a":"PLAYING","b":"ET of Atari 2600"},
+        {"a":"PLAYING","b":"Knack II"},
         {"a":"PLAYING","b":"beer pong"},
         {"a":"PLAYING","b":"with matches"},
+        {"a":"PLAYING","b":"with fire"},
         {"a":"PLAYING","b":"outside"},
         {"a":"PLAYING","b":"whatever bots play"},
         {"a":"PLAYING","b":"papa ohnos puddle glands"},
