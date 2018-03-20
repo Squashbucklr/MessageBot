@@ -1,0 +1,27 @@
+{
+  "name": "messagebot",
+  "version": "1.0.0",
+  "description": "a discord bot that sends messages because im too cheap for nitro",
+  "main": "app.js",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "discord.js": "^11.3.2",
+    "express": "^4.16.2",
+    "express-basic-auth": "^1.1.3",
+    "fs": "^0.0.1-security"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Squashbucklr/MessageBot.git"
+  },
+  "author": "Squashbucklr",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Squashbucklr/MessageBot/issues"
+  },
+  "homepage": "https://github.com/Squashbucklr/MessageBot#readme"
+}
