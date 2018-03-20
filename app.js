@@ -160,6 +160,12 @@ function chAct(){
         {"a":"WATCHING","b":"the day go by"},
         {"a":"WATCHING","b":"anything but anime"},
         {"a":"WATCHING","b":"communism fail"},
+        {"a":"WATCHING","b":"definitely not porn"},
+        {"a":"WATCHING","b":"static"},
+        {"a":"WATCHING","b":"over everyone"},
+        {"a":"WATCHING","b":"you fail"},
+        {"a":"WATCHING","b":"everything burn"},
+        {"a":"PLAYING","b":"ghost raccoon"},
         {"a":"PLAYING","b":"PONG (1972)"},
         {"a":"PLAYING","b":"ET of Atari 2600"},
         {"a":"PLAYING","b":"Knack II"},
@@ -170,6 +176,9 @@ function chAct(){
         {"a":"PLAYING","b":"whatever bots play"},
         {"a":"PLAYING","b":"papa ohnos puddle glands"},
         {"a":"PLAYING","b":"what the cool kids do"}
+        {"a":"PLAYING","b":"SPURTZ"}
+        {"a":"PLAYING","b":"with my bear"}
+        {"a":"PLAYING","b":"with my raccoon"}
     ];
     
     var index = Math.floor(Math.random() * options.length);
