@@ -175,10 +175,10 @@ function chAct(){
         {"a":"PLAYING","b":"outside"},
         {"a":"PLAYING","b":"whatever bots play"},
         {"a":"PLAYING","b":"papa ohnos puddle glands"},
-        {"a":"PLAYING","b":"what the cool kids do"}
-        {"a":"PLAYING","b":"SPURTZ"}
-        {"a":"PLAYING","b":"with my bear"}
-        {"a":"PLAYING","b":"with my raccoon"}
+        {"a":"PLAYING","b":"what the cool kids do"},
+        {"a":"PLAYING","b":"SPURTZ"},
+        {"a":"PLAYING","b":"with my bear"},
+        {"a":"PLAYING","b":"with my raccoon"},
     ];
     
     var index = Math.floor(Math.random() * options.length);
