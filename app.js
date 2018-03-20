@@ -159,7 +159,7 @@ function chAct(){
         {"a":"WATCHING","b":"memes"},
         {"a":"WATCHING","b":"the day go by"},
         {"a":"WATCHING","b":"anything but anime"},
-        {"a":"PLAYING","b":"communism fail"},
+        {"a":"WATCHING","b":"communism fail"},
         {"a":"PLAYING","b":"PONG (1972)"},
         {"a":"PLAYING","b":"ET of Atari 2600"},
         {"a":"PLAYING","b":"Knack II"},
