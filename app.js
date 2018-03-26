@@ -8,6 +8,7 @@ var fs = require('fs');
 var bot = new Discord.Client();
 
 var lines = [];
+var statuses = [];
 
 bot.on('ready', () => {
     chAct();
@@ -139,7 +140,7 @@ bot.on('ready', () => {
         }
         res.send(JSON.stringify(ret));
     });
-    app.listen(12345);
+    app.listen(lines[3]);
 //    var options = {};
 //    https.createServer(options, function(req, res){
 //        app.handle(req, res);
@@ -148,48 +149,31 @@ bot.on('ready', () => {
 
 function chAct(){
     // {"a":"WATCHING","b":"some paint dry"}
-    var options = [
-        {"a":"WATCHING","b":"some paint dry"},
-        {"a":"WATCHING","b":"Spongebob"},
-        {"a":"WATCHING","b":"the grass grow"},
-        {"a":"WATCHING","b":"a pot boil"},
-        {"a":"WATCHING","b":"you. turn around"},
-        {"a":"WATCHING","b":"you suffer"},
-        {"a":"WATCHING","b":"important videos"},
-        {"a":"WATCHING","b":"memes"},
-        {"a":"WATCHING","b":"the day go by"},
-        {"a":"WATCHING","b":"anything but anime"},
-        {"a":"WATCHING","b":"communism fail"},
-        {"a":"WATCHING","b":"definitely not porn"},
-        {"a":"WATCHING","b":"static"},
-        {"a":"WATCHING","b":"over everyone"},
-        {"a":"WATCHING","b":"you fail"},
-        {"a":"WATCHING","b":"everything burn"},
-        {"a":"PLAYING","b":"ghost raccoon"},
-        {"a":"PLAYING","b":"PONG (1972)"},
-        {"a":"PLAYING","b":"ET of Atari 2600"},
-        {"a":"PLAYING","b":"Knack II"},
-        {"a":"PLAYING","b":"beer pong"},
-        {"a":"PLAYING","b":"with matches"},
-        {"a":"PLAYING","b":"with fire"},
-        {"a":"PLAYING","b":"outside"},
-        {"a":"PLAYING","b":"whatever bots play"},
-        {"a":"PLAYING","b":"papa ohnos puddle glands"},
-        {"a":"PLAYING","b":"what the cool kids do"},
-        {"a":"PLAYING","b":"SPURTZ"},
-        {"a":"PLAYING","b":"with my bear"},
-        {"a":"PLAYING","b":"with my raccoon"},
-    ];
-    
-    var index = Math.floor(Math.random() * options.length);
-    console.log(options[index]);
-    bot.user.setActivity(options[index].b, {
-        "type":options[index].a
+    var options = [];
+    statuses.forEach(s => {
+	if(s.length == 0) return;
+        var input = /([wp]) (.*)/.exec(s);
+	options.add({
+            "a": input[1],
+	    "b": input[2]
+	});
     });
+    
+    if(options.length != 0){
+        var index = Math.floor(Math.random() * options.length);
+        console.log(options[index]);
+        bot.user.setActivity(options[index].b, {
+            "type":options[index].a
+        });
+    }
     setTimeout(chAct, 600000);
 }
 
 fs.readFile("config.txt", "utf8", function (err, data) {
     lines = data.split('\r').join('').split('\n');
     bot.login(lines[0]);
+});
+
+fs.readFile("say.txt", "utf8", function (err, data) {
+    statuses = data.split('\r').join('').split('\n');
 });
